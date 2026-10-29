@@ -7,16 +7,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root {
-    --ink: #1c1a17;
-    --paper: #fbfaf7;
-    --line: #d9d4c9;
-    --accent: #2f5d4f;
-    --muted: #746e63;
+    --ink: #1c1c1c;
+    --paper: #ffffff;
+    --line: #dde1e6;
+    --blue: #1d2f58;
+    --yellow: #fcd94a;
+    --accent: var(--blue);
+    --muted: #5c6670;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background: var(--paper);
     color: var(--ink);
   }
@@ -26,17 +28,19 @@
     padding: 48px 32px 80px;
   }
   .eyebrow {
-    font-family: 'Courier New', monospace;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 11px;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--blue);
     margin-bottom: 6px;
   }
-  h1 { font-size: 26px; margin: 0 0 6px; font-weight: 600; }
+  h1 { font-size: 26px; margin: 0 0 6px; font-weight: 700; color: var(--blue); }
   .sub { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
   .section {
     border: 1px solid var(--line);
+    border-left: 4px solid var(--yellow);
     border-radius: 6px;
     padding: 24px 24px 8px;
     margin-top: 28px;
@@ -45,7 +49,8 @@
   .section h2 {
     font-size: 16px;
     margin: 0 0 4px;
-    color: var(--accent);
+    color: var(--blue);
+    font-weight: 700;
   }
   .section .desc {
     font-size: 12.5px;
@@ -82,15 +87,15 @@
     padding: 15px;
     font-family: inherit;
     font-size: 15px;
-    font-weight: 600;
-    background: var(--accent);
-    color: white;
+    font-weight: 700;
+    background: var(--blue);
+    color: var(--yellow);
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
-  button:hover { background: #24493d; }
-  button:disabled { background: var(--line); cursor: not-allowed; }
+  button:hover { background: #09305a; }
+  button:disabled { background: var(--line); color: white; cursor: not-allowed; }
   .status { margin-top: 12px; font-size: 13px; color: var(--muted); min-height: 18px; text-align: center; }
 </style>
 </head>
@@ -174,7 +179,7 @@
   <div class="section" style="margin-top:36px;">
     <h2>Live preview</h2>
     <div class="desc">Updates automatically as you fill in the fields above.</div>
-    <div id="previewContainer" style="width:100%; overflow-x:hidden; border:1px solid var(--line); border-radius:4px; background:#e9e6dd; padding:16px; display:flex; flex-direction:column; align-items:center; gap:20px;"></div>
+    <div id="previewContainer" style="width:100%; overflow-x:hidden; border:1px solid var(--line); border-radius:4px; background:#f3f6fa; padding:16px; display:flex; flex-direction:column; align-items:center; gap:20px;"></div>
   </div>
 </div>
 
@@ -211,9 +216,9 @@ class Writer {
   }
   heading(text) {
     this.ensure(24);
-    this.page.drawText(text, { x: this.marginX, y: this.y, size: 15, font: this.fontBold, color: rgb(0.11,0.11,0.09) });
+    this.page.drawText(text, { x: this.marginX, y: this.y, size: 15, font: this.fontBold, color: rgb(0.1137,0.1843,0.3451) });
     this.y -= 8;
-    this.page.drawLine({ start: { x: this.marginX, y: this.y }, end: { x: this.w - this.marginX, y: this.y }, thickness: 1, color: rgb(0.18,0.36,0.31) });
+    this.page.drawLine({ start: { x: this.marginX, y: this.y }, end: { x: this.w - this.marginX, y: this.y }, thickness: 2.5, color: rgb(0.9882,0.8510,0.2902) });
     this.y -= 22;
   }
   wrapLines(text, size, maxWidth) {
@@ -283,7 +288,8 @@ async function buildPdfBytes(f) {
     const w = new Writer(pdfDoc, font, fontBold);
 
     // Title page
-    w.page.drawText(`Organising Scenario Activity: ${f.scenario}`, { x: w.marginX, y: 600, size: 22, font: fontBold, color: rgb(0.11,0.11,0.09) });
+    w.page.drawText(`Organising Scenario Activity: ${f.scenario}`, { x: w.marginX, y: 600, size: 22, font: fontBold, color: rgb(0.1137,0.1843,0.3451) });
+    w.page.drawLine({ start: { x: w.marginX, y: 585 }, end: { x: w.marginX + 140, y: 585 }, thickness: 3, color: rgb(0.9882,0.8510,0.2902) });
     w.y = 500;
 
     // Setup section
